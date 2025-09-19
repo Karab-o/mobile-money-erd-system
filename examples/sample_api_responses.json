@@ -1,0 +1,132 @@
+{
+  "users": [
+    {
+      "UserID": 1,
+      "FullName": "Alice Nkurunziza",
+      "PhoneNumber": "+250788111111",
+      "AccountNumber": "ACC1001",
+      "UserType": "Customer",
+      "Balance": 50000.00,
+      "Status": "Active",
+      "CreatedDate": "2025-01-02T09:15:00Z"
+    },
+    {
+      "UserID": 2,
+      "FullName": "John Mukiza",
+      "PhoneNumber": "+250788222222",
+      "AccountNumber": "ACC2001",
+      "UserType": "Agent",
+      "Balance": 150000.00,
+      "Status": "Active",
+      "CreatedDate": "2025-01-05T14:45:00Z"
+    }
+  ],
+  "transaction_categories": [
+    {
+      "TransactionTypeID": 1,
+      "CategoryName": "Deposit",
+      "Description": "Cash deposit via agent",
+      "IsActive": true,
+      "CreatedDate": "2025-01-01T08:00:00Z"
+    },
+    {
+      "TransactionTypeID": 3,
+      "CategoryName": "Transfer",
+      "Description": "P2P money transfer",
+      "IsActive": true,
+      "CreatedDate": "2025-01-01T08:00:00Z"
+    }
+  ],
+  "transactions": [
+    {
+      "TransactionID": "TX10001",
+      "TransactionTypeID": 1,
+      "TransactionType": "Deposit",
+      "SenderID": 2,
+      "ReceiverID": 1,
+      "Amount": 20000.00,
+      "Fee": 200.00,
+      "BalanceAfter": 130000.00,
+      "TransactionDateTime": "2025-01-10T09:00:00Z",
+      "ExternalReference": "REF98765",
+      "Status": "Completed",
+      "Description": "Cash deposit"
+    },
+    {
+      "TransactionID": "TX10002",
+      "TransactionTypeID": 3,
+      "TransactionType": "Transfer",
+      "SenderID": 1,
+      "ReceiverID": 3,
+      "Amount": 5000.00,
+      "Fee": 50.00,
+      "BalanceAfter": 44950.00,
+      "TransactionDateTime": "2025-01-11T11:15:00Z",
+      "ExternalReference": "REF12345",
+      "Status": "Completed",
+      "Description": "Payment transfer"
+    }
+  ],
+  "transaction_participants": [
+    {
+      "TransactionID": "TX10001",
+      "UserID": 2,
+      "Role": "Agent",
+      "AmountInvolved": 20000.00,
+      "CreatedDate": "2025-01-10T09:00:00Z"
+    },
+    {
+      "TransactionID": "TX10001",
+      "UserID": 1,
+      "Role": "Customer",
+      "AmountInvolved": 20000.00,
+      "CreatedDate": "2025-01-10T09:00:00Z"
+    },
+    {
+      "TransactionID": "TX10002",
+      "UserID": 1,
+      "Role": "Sender",
+      "AmountInvolved": 5000.00,
+      "CreatedDate": "2025-01-11T11:15:00Z"
+    },
+    {
+      "TransactionID": "TX10002",
+      "UserID": 3,
+      "Role": "Merchant",
+      "AmountInvolved": 5000.00,
+      "CreatedDate": "2025-01-11T11:15:00Z"
+    }
+  ],
+  "system_logs": [
+    {
+      "LogID": 1,
+      "TransactionID": "TX10001",
+      "LogDateTime": "2025-01-10T09:00:05Z",
+      "Message": "Deposit successful",
+      "LogType": "Info",
+      "UserID": 1,
+      "IPAddress": "192.168.1.10",
+      "UserAgent": "Mozilla/5.0"
+    },
+    {
+      "LogID": 2,
+      "TransactionID": "TX10002",
+      "LogDateTime": "2025-01-11T11:15:10Z",
+      "Message": "Payment to merchant success",
+      "LogType": "Info",
+      "UserID": 1,
+      "IPAddress": "192.168.1.15",
+      "UserAgent": "Chrome/119.0"
+    },
+    {
+      "LogID": 3,
+      "TransactionID": null,
+      "LogDateTime": "2025-01-12T08:45:30Z",
+      "Message": "OTP sent to +250788111111",
+      "LogType": "OTP",
+      "UserID": 1,
+      "IPAddress": "192.168.1.20",
+      "UserAgent": "Safari/17.2"
+    }
+  ]
+}
