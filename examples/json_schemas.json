@@ -1,0 +1,585 @@
+{
+  "schemas": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "title": "User Schema",
+      "description": "Represents a user in the mobile money system",
+      "properties": {
+        "userID": {
+          "type": "integer",
+          "description": "Unique identifier for the user"
+        },
+        "fullName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Complete name of the user"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "pattern": "^[0-9+]{10,15}$",
+          "description": "Mobile phone number"
+        },
+        "accountNumber": {
+          "type": ["string", "null"],
+          "maxLength": 20,
+          "description": "Account number for formal accounts"
+        },
+        "userType": {
+          "type": "string",
+          "enum": ["Customer", "Agent", "Merchant"],
+          "description": "Type of user in the system"
+        },
+        "balance": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Current account balance"
+        },
+        "createdDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account creation timestamp"
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Account status flag"
+        }
+      },
+      "required": ["userID", "fullName", "phoneNumber", "userType", "balance"]
+    },
+    
+    "TransactionCategory": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "title": "Transaction Category Schema",
+      "properties": {
+        "transactionTypeID": {
+          "type": "integer",
+          "description": "Unique transaction type identifier"
+        },
+        "categoryName": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Name of transaction category"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the transaction type"
+        },
+        "feeStructure": {
+          "type": "object",
+          "properties": {
+            "flat_fee": {
+              "type": "number",
+              "minimum": 0
+            },
+            "percentage": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "description": "Fee calculation rules"
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Whether this category is currently available"
+        }
+      },
+      "required": ["transactionTypeID", "categoryName", "isActive"]
+    },
+    
+    "Transaction": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "title": "Transaction Schema",
+      "properties": {
+        "transactionID": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Unique transaction identifier"
+        },
+        "transactionTypeID": {
+          "type": "integer",
+          "description": "Reference to transaction category"
+        },
+        "senderID": {
+          "type": "integer",
+          "description": "User who initiates the transaction"
+        },
+        "receiverID": {
+          "type": ["integer", "null"],
+          "description": "User who receives the transaction"
+        },
+        "amount": {
+          "type": "number",
+          "minimum": 0.01,
+          "description": "Transaction amount"
+        },
+        "fee": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Transaction fee charged"
+        },
+        "balanceAfter": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Sender balance after transaction"
+        },
+        "transactionDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Transaction timestamp"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Pending", "Completed", "Failed", "Cancelled"],
+          "description": "Transaction status"
+        },
+        "externalReference": {
+          "type": ["string", "null"],
+          "description": "External system reference"
+        }
+      },
+      "required": ["transactionID", "transactionTypeID", "senderID", "amount", "status"]
+    }
+  },
+  
+  "examples": {
+    "user_customer": {
+      "userID": 1,
+      "fullName": "John Doe Customer",
+      "phoneNumber": "+250788123456",
+      "accountNumber": "ACC001",
+      "userType": "Customer",
+      "balance": 50000.00,
+      "createdDate": "2025-09-19T10:30:00Z",
+      "lastLoginDate": "2025-09-19T14:45:00Z",
+      "isActive": true,
+      "metadata": {
+        "registrationChannel": "USSD",
+        "preferredLanguage": "en",
+        "location": {
+          "city": "Kigali",
+          "district": "Gasabo"
+        }
+      }
+    },
+    
+    "user_agent": {
+      "userID": 3,
+      "fullName": "Agent Mike Wilson",
+      "phoneNumber": "+250788345678",
+      "accountNumber": "AGT001",
+      "userType": "Agent",
+      "balance": 500000.00,
+      "createdDate": "2025-01-15T08:00:00Z",
+      "lastLoginDate": "2025-09-19T15:20:00Z",
+      "isActive": true,
+      "agentInfo": {
+        "commission": 0.02,
+        "territory": "Kigali East",
+        "maxTransactionLimit": 100000.00,
+        "certificationLevel": "Level 2"
+      }
+    },
+    
+    "transaction_category": {
+      "transactionTypeID": 1,
+      "categoryName": "P2P_Transfer",
+      "description": "Person-to-person money transfer",
+      "feeStructure": {
+        "flat_fee": 100,
+        "percentage": 0.01,
+        "minimum_fee": 50,
+        "maximum_fee": 1000,
+        "fee_tiers": [
+          {
+            "min_amount": 0,
+            "max_amount": 10000,
+            "fee": 100
+          },
+          {
+            "min_amount": 10001,
+            "max_amount": 50000,
+            "fee": 200
+          }
+        ]
+      },
+      "isActive": true,
+      "createdDate": "2025-01-01T00:00:00Z"
+    },
+    
+    "simple_transaction": {
+      "transactionID": "TXN20250919001",
+      "transactionTypeID": 1,
+      "senderID": 1,
+      "receiverID": 2,
+      "amount": 10000.00,
+      "fee": 150.00,
+      "balanceAfter": 39850.00,
+      "transactionDateTime": "2025-09-19T10:45:30Z",
+      "status": "Completed",
+      "externalReference": null,
+      "description": "Money transfer to Jane Smith"
+    },
+    
+    "complex_transaction_with_relationships": {
+      "transactionID": "TXN20250919001",
+      "transactionDateTime": "2025-09-19T10:45:30Z",
+      "amount": 10000.00,
+      "fee": 150.00,
+      "status": "Completed",
+      "description": "Money transfer to Jane Smith",
+      "category": {
+        "transactionTypeID": 1,
+        "categoryName": "P2P_Transfer",
+        "description": "Person-to-person money transfer",
+        "feeStructure": {
+          "flat_fee": 100,
+          "percentage": 0.01
+        }
+      },
+      "sender": {
+        "userID": 1,
+        "fullName": "John Doe Customer",
+        "phoneNumber": "+250788123456",
+        "userType": "Customer",
+        "balanceBefore": 50000.00,
+        "balanceAfter": 39850.00
+      },
+      "receiver": {
+        "userID": 2,
+        "fullName": "Jane Smith Customer",
+        "phoneNumber": "+250788234567",
+        "userType": "Customer",
+        "balanceBefore": 75000.00,
+        "balanceAfter": 85000.00
+      },
+      "participants": [
+        {
+          "userID": 1,
+          "role": "Sender",
+          "processedDate": "2025-09-19T10:45:30Z",
+          "user": {
+            "fullName": "John Doe Customer",
+            "phoneNumber": "+250788123456",
+            "userType": "Customer"
+          }
+        },
+        {
+          "userID": 2,
+          "role": "Receiver",
+          "processedDate": "2025-09-19T10:45:31Z",
+          "user": {
+            "fullName": "Jane Smith Customer",
+            "phoneNumber": "+250788234567",
+            "userType": "Customer"
+          }
+        }
+      ],
+      "systemLogs": [
+        {
+          "logID": 1,
+          "logDateTime": "2025-09-19T10:45:30Z",
+          "logType": "INFO",
+          "message": "P2P transfer initiated",
+          "ipAddress": "192.168.1.100"
+        },
+        {
+          "logID": 2,
+          "logDateTime": "2025-09-19T10:45:31Z",
+          "logType": "INFO", 
+          "message": "P2P transfer completed successfully",
+          "ipAddress": "192.168.1.100"
+        }
+      ],
+      "metadata": {
+        "processingTime": "1.2s",
+        "channel": "USSD",
+        "location": {
+          "latitude": -1.9441,
+          "longitude": 30.0619,
+          "city": "Kigali"
+        },
+        "deviceInfo": {
+          "userAgent": "KaiOS/3.0",
+          "deviceModel": "Nokia 8110"
+        }
+      }
+    },
+    
+    "agent_transaction": {
+      "transactionID": "TXN20250919002",
+      "transactionDateTime": "2025-09-19T11:15:45Z",
+      "amount": 25000.00,
+      "fee": 125.00,
+      "status": "Completed",
+      "description": "Cash deposit via Agent Mike",
+      "category": {
+        "categoryName": "Agent_Deposit",
+        "description": "Cash deposit through agent"
+      },
+      "customer": {
+        "userID": 1,
+        "fullName": "John Doe Customer",
+        "phoneNumber": "+250788123456",
+        "balanceAfter": 64725.00
+      },
+      "agent": {
+        "userID": 3,
+        "fullName": "Agent Mike Wilson",
+        "phoneNumber": "+250788345678",
+        "userType": "Agent",
+        "commission": 500.00,
+        "territory": "Kigali East"
+      },
+      "participants": [
+        {
+          "userID": 1,
+          "role": "Receiver",
+          "processedDate": "2025-09-19T11:15:45Z"
+        },
+        {
+          "userID": 3,
+          "role": "Agent",
+          "processedDate": "2025-09-19T11:15:46Z"
+        }
+      ],
+      "externalReference": "DEP001",
+      "cashHandling": {
+        "cashReceived": 25000.00,
+        "changeGiven": 0.00,
+        "receiptNumber": "RCP20250919002"
+      }
+    },
+    
+    "system_log": {
+      "logID": 1,
+      "transactionID": "TXN20250919001",
+      "logDateTime": "2025-09-19T10:45:30Z",
+      "logType": "INFO",
+      "message": "P2P transfer completed successfully",
+      "ipAddress": "192.168.1.100",
+      "userAgent": "MoMo-App/2.1.0 (Android 11; SM-G975F)",
+      "userID": 1,
+      "additionalData": {
+        "requestId": "REQ-001-20250919",
+        "sessionId": "SES-789-ABC",
+        "processingDuration": 1200,
+        "errorCode": null,
+        "stackTrace": null
+      }
+    },
+    
+    "transaction_participants": {
+      "transactionID": "TXN20250919001",
+      "participants": [
+        {
+          "userID": 1,
+          "role": "Sender",
+          "processedDate": "2025-09-19T10:45:30Z",
+          "user": {
+            "fullName": "John Doe Customer",
+            "phoneNumber": "+250788123456",
+            "userType": "Customer"
+          }
+        },
+        {
+          "userID": 2,
+          "role": "Receiver", 
+          "processedDate": "2025-09-19T10:45:31Z",
+          "user": {
+            "fullName": "Jane Smith Customer",
+            "phoneNumber": "+250788234567",
+            "userType": "Customer"
+          }
+        }
+      ]
+    },
+    
+    "api_response_transaction_history": {
+      "status": "success",
+      "message": "Transaction history retrieved successfully",
+      "data": {
+        "user": {
+          "userID": 1,
+          "fullName": "John Doe Customer",
+          "phoneNumber": "+250788123456"
+        },
+        "pagination": {
+          "page": 1,
+          "pageSize": 10,
+          "totalRecords": 25,
+          "totalPages": 3
+        },
+        "transactions": [
+          {
+            "transactionID": "TXN20250919001",
+            "type": "P2P_Transfer",
+            "amount": 10000.00,
+            "fee": 150.00,
+            "status": "Completed",
+            "timestamp": "2025-09-19T10:45:30Z",
+            "counterparty": {
+              "name": "Jane Smith Customer",
+              "phone": "+250788234567"
+            },
+            "balanceAfter": 39850.00
+          },
+          {
+            "transactionID": "TXN20250919005",
+            "type": "Airtime_Purchase",
+            "amount": 3000.00,
+            "fee": 50.00,
+            "status": "Completed",
+            "timestamp": "2025-09-19T12:30:15Z",
+            "counterparty": null,
+            "balanceAfter": 36800.00,
+            "externalReference": "AIR001"
+          }
+        ]
+      },
+      "metadata": {
+        "requestId": "REQ-002-20250919",
+        "timestamp": "2025-09-19T15:30:00Z",
+        "processingTime": "0.45s",
+        "version": "v2.1"
+      }
+    },
+    
+    "api_response_balance_inquiry": {
+      "status": "success",
+      "message": "Balance retrieved successfully",
+      "data": {
+        "user": {
+          "userID": 1,
+          "fullName": "John Doe Customer",
+          "phoneNumber": "+250788123456",
+          "accountNumber": "ACC001",
+          "userType": "Customer"
+        },
+        "balance": {
+          "current": 36800.00,
+          "available": 36800.00,
+          "pending": 0.00,
+          "lastUpdated": "2025-09-19T12:30:15Z"
+        },
+        "limits": {
+          "dailyTransactionLimit": 100000.00,
+          "dailyTransactionUsed": 13050.00,
+          "remainingDaily": 86950.00,
+          "monthlyLimit": 500000.00,
+          "monthlyUsed": 45000.00
+        },
+        "accountStatus": {
+          "isActive": true,
+          "kycLevel": "Level 2",
+          "lastLogin": "2025-09-19T14:45:00Z"
+        }
+      }
+    },
+    
+    "sms_processing_format": {
+      "rawSMS": {
+        "sender": "1234",
+        "message": "TXN20250919001 Confirmed. You have sent RWF 10,000 to 0788234567. Fee: RWF 150. Balance: RWF 39,850. Ref: TXN20250919001",
+        "timestamp": "2025-09-19T10:45:32Z",
+        "phoneNumber": "+250788123456"
+      },
+      "parsedData": {
+        "transactionID": "TXN20250919001",
+        "status": "Confirmed",
+        "transactionType": "send",
+        "amount": 10000.00,
+        "currency": "RWF",
+        "recipientPhone": "+250788234567",
+        "fee": 150.00,
+        "balanceAfter": 39850.00,
+        "reference": "TXN20250919001",
+        "timestamp": "2025-09-19T10:45:32Z"
+      },
+      "mappingToDatabase": {
+        "Users": {
+          "findBy": "phoneNumber",
+          "value": "+250788123456",
+          "updateFields": {
+            "Balance": 39850.00,
+            "LastTransactionDate": "2025-09-19T10:45:32Z"
+          }
+        },
+        "Transactions": {
+          "TransactionID": "TXN20250919001",
+          "Amount": 10000.00,
+          "Fee": 150.00,
+          "BalanceAfter": 39850.00,
+          "Status": "Completed"
+        },
+        "System_Logs": {
+          "TransactionID": "TXN20250919001",
+          "LogType": "INFO",
+          "Message": "SMS confirmation processed for transaction TXN20250919001"
+        }
+      }
+    }
+  },
+  
+  "relational_to_json_mapping": {
+    "description": "Mapping between SQL relational data and JSON representations",
+    "mappings": {
+      "Users_Table": {
+        "sqlColumns": ["UserID", "FullName", "PhoneNumber", "AccountNumber", "UserType", "Balance", "CreatedDate", "IsActive"],
+        "jsonStructure": {
+          "userID": "Users.UserID",
+          "fullName": "Users.FullName",
+          "phoneNumber": "Users.PhoneNumber",
+          "accountNumber": "Users.AccountNumber",
+          "userType": "Users.UserType",
+          "balance": "Users.Balance",
+          "createdDate": "Users.CreatedDate",
+          "isActive": "Users.IsActive"
+        },
+        "nestedRelationships": {
+          "transactions": "JOIN Transactions ON Users.UserID = Transactions.SenderID",
+          "receivedTransactions": "JOIN Transactions ON Users.UserID = Transactions.ReceiverID",
+          "systemLogs": "JOIN System_Logs ON Users.UserID = System_Logs.UserID"
+        }
+      },
+      "Transactions_Table": {
+        "sqlColumns": ["TransactionID", "TransactionTypeID", "SenderID", "ReceiverID", "Amount", "Fee", "BalanceAfter", "TransactionDateTime", "Status"],
+        "jsonStructure": {
+          "transactionID": "Transactions.TransactionID",
+          "amount": "Transactions.Amount",
+          "fee": "Transactions.Fee",
+          "timestamp": "Transactions.TransactionDateTime",
+          "status": "Transactions.Status"
+        },
+        "nestedObjects": {
+          "category": "JOIN Transaction_Categories ON Transactions.TransactionTypeID = Transaction_Categories.TransactionTypeID",
+          "sender": "JOIN Users ON Transactions.SenderID = Users.UserID",
+          "receiver": "LEFT JOIN Users ON Transactions.ReceiverID = Users.UserID",
+          "participants": "JOIN Transaction_Participants ON Transactions.TransactionID = Transaction_Participants.TransactionID",
+          "logs": "JOIN System_Logs ON Transactions.TransactionID = System_Logs.TransactionID"
+        }
+      }
+    },
+    
+    "apiEndpointExamples": {
+      "getUserById": {
+        "endpoint": "GET /api/users/{id}",
+        "sqlQuery": "SELECT * FROM Users WHERE UserID = ?",
+        "jsonResponse": "user_customer example above"
+      },
+      "getTransactionDetails": {
+        "endpoint": "GET /api/transactions/{id}",
+        "sqlQuery": "SELECT t.*, tc.CategoryName, u1.FullName as SenderName, u2.FullName as ReceiverName FROM Transactions t JOIN Transaction_Categories tc ON t.TransactionTypeID = tc.TransactionTypeID JOIN Users u1 ON t.SenderID = u1.UserID LEFT JOIN Users u2 ON t.ReceiverID = u2.UserID WHERE t.TransactionID = ?",
+        "jsonResponse": "complex_transaction_with_relationships example above"
+      },
+      "getUserTransactionHistory": {
+        "endpoint": "GET /api/users/{id}/transactions",
+        "sqlQuery": "SELECT t.*, tc.CategoryName FROM Transactions t JOIN Transaction_Categories tc ON t.TransactionTypeID = tc.TransactionTypeID WHERE t.SenderID = ? OR t.ReceiverID = ? ORDER BY t.TransactionDateTime DESC LIMIT ? OFFSET ?",
+        "jsonResponse": "api_response_transaction_history example above"
+      }
+    }
+  }
+}
