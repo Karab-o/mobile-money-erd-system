@@ -26,13 +26,13 @@ ORDER BY UserID;
 -- +--------+----------------------+----------------+----------+----------+----------+
 -- | UserID | FullName             | PhoneNumber    | UserType | Balance  | IsActive |
 -- +--------+----------------------+----------------+----------+----------+----------+
--- |      1 | John Doe Customer    | +250788123456  | Customer | 50000.00 |        1 |
--- |      2 | Jane Smith Customer  | +250788234567  | Customer | 75000.00 |        1 |
--- |      3 | Agent Mike Wilson    | +250788345678  | Agent    | 500000.00|        1 |
--- |      4 | Merchant Store ABC   | +250788456789  | Merchant | 25000.00 |        1 |
--- |      5 | Customer Mary Johnson| +250788567890  | Customer | 30000.00 |        1 |
--- |      6 | Agent Sarah Brown    | +250788678901  | Agent    | 750000.00|        1 |
--- |      7 | Test Customer        | +250788999888  | Customer | 15000.00 |        1 |
+-- |      1 | Bwiza Lisa           | +250788123456  | Customer | 50000.00 |        1 |
+-- |      2 | Rwema Sammy          | +250788234567  | Customer | 75000.00 |        1 |
+-- |      3 | Agent Karabo Sidney  | +250788345678  | Agent    | 500000.00|        1 |
+-- |      4 | Keza Lola            | +250788456789  | Merchant | 25000.00 |        1 |
+-- |      5 | Rugero Brian         | +250788567890  | Customer | 30000.00 |        1 |
+-- |      6 | Agent Rubimbura      | +250788678901  | Agent    | 750000.00|        1 |
+-- |      7 | Kami Riley           | +250788999888  | Customer | 15000.00 |        1 |
 -- +--------+----------------------+----------------+----------+----------+----------+
 -- 7 rows in set (0.00 sec)
 
