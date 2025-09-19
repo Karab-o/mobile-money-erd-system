@@ -1,5 +1,5 @@
 -- =====================================================
--- Optimized Mobile Money SMS System Database
+-- Mobile Money SMS System Database
 -- =====================================================
 
 SET FOREIGN_KEY_CHECKS = 0;
@@ -65,7 +65,7 @@ CREATE TABLE Transactions (
     Description TEXT,
     CONSTRAINT chk_amount_positive CHECK (Amount > 0),
     CONSTRAINT chk_fee_non_negative CHECK (Fee >= 0),
-    CONSTRAINT chk_balance_non_negative CHECK (BalanceAfter >= 0),
+    CONSTRAINT chk_balance_non_negative_status CHECK (BalanceAfter >= 0),
     FOREIGN KEY (TransactionTypeID) REFERENCES Transaction_Categories(TransactionTypeID) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (SenderID) REFERENCES Users(UserID) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (ReceiverID) REFERENCES Users(UserID) ON DELETE RESTRICT ON UPDATE CASCADE

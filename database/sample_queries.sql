@@ -1,7 +1,7 @@
 -- =====================================================
 -- Mobile Money System - Sample Queries & Results
 -- =====================================================
--- Team: [Your Team Name]
+-- Team Member: Karabo Divine
 -- Purpose: Demonstrate database functionality with sample queries
 -- Instructions: Run these queries after executing database_setup.sql
 
