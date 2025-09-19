@@ -2,7 +2,7 @@
 
 [![Database](https://img.shields.io/badge/Database-MySQL-blue.svg)](https://www.mysql.com/)
 [![Status](https://img.shields.io/badge/Status-Week%202%20Complete-green.svg)](#)
-[![Team](https://img.shields.io/badge/Team-Collaborative-orange.svg)](#team-members)
+
 
 ## 📋 Project Overview
 
