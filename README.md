@@ -67,7 +67,7 @@ momo-sms-system/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/[your-username]/momo-sms-system.git
+   git clone https://github.com/[karab-o]/momo-sms-system.git
    cd momo-sms-system
    ```
 
@@ -139,7 +139,6 @@ Our system provides comprehensive JSON schemas for modern API development:
 - `POST /api/transactions` - Create new transaction
 - `GET /api/transactions/{id}` - Get transaction details
 
-*See `examples/sample_api_responses.json` for complete examples*
 
 ## 🔒 Security Features
 
@@ -176,13 +175,6 @@ CREATE INDEX idx_transactions_sender_date ON Transactions(SenderID, TransactionD
 -- Optimized for system monitoring
 CREATE INDEX idx_logs_type ON System_Logs(LogType, LogDateTime);
 ```
-
-## 👥 Team Members
-
-- **Team Lead**: [Your Name] - Database Architecture & ERD Design
-- **Developer 1**: [Member 2] - SQL Implementation & Testing
-- **Developer 2**: [Member 3] - JSON Schema Design & API Planning
-- **QA Specialist**: [Member 4] - Testing & Documentation
 
 ## 📈 Project Timeline
 
@@ -293,14 +285,6 @@ Our repository demonstrates clear team collaboration through:
 - **Code Quality**: Clean, well-commented, and tested
 - **Knowledge Sharing**: Regular team reviews and documentation
 
-## 📞 Support & Contact
-
-### Getting Help
-
-- **Technical Issues**: Create GitHub issue with detailed description
-- **Team Questions**: Use team Slack channel #momo-sms-dev
-- **Documentation**: Check existing docs before asking questions
-
 ### Contributing
 
 1. Fork the repository
@@ -333,8 +317,8 @@ This project is part of an academic assignment and follows university guidelines
 
 **Last Updated**: September 19, 2025  
 **Version**: 2.0 (Week 2 Complete)  
-**Next Review**: September 26, 2025
+
 
 ---
 
-*Built with ❤️ by the MoMo SMS Processing Team*
+*Built with ❤️ *
